@@ -1,12 +1,8 @@
+using Ebanx.Services.Account.Web;
+
 var builder = WebApplication.CreateBuilder(args);
 
-var serviceCollection = builder.Services;
-{
-    serviceCollection.AddControllers();
-    serviceCollection.AddEndpointsApiExplorer();
-    serviceCollection.AddSwaggerGen();
-    serviceCollection.AddRouting(opt => opt.LowercaseUrls = true);
-}
+builder.Services.ConfigureServices();
 
 var app = builder.Build();
 {
