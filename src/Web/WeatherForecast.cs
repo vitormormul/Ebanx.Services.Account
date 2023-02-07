@@ -1,5 +1,6 @@
-namespace Ebanx.Services.Account;
+namespace Ebanx.Services.Account.Web;
 
+#pragma warning disable CS1591
 public class WeatherForecast
 {
     public DateTime Date { get; set; }

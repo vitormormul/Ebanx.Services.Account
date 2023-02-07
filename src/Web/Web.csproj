@@ -5,10 +5,16 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <RootNamespace>Ebanx.Services.Account.Web</RootNamespace>
+    <AssemblyName>Ebanx.Services.Account.Web</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Application\Application.csproj" />
   </ItemGroup>
 
 </Project>

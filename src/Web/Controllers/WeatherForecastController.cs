@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ebanx.Services.Account.Controllers;
+namespace Ebanx.Services.Account.Web.Controllers;
 
 [ApiController]
 [Route("[controller]")]

@@ -1,7 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Ebanx.Services.Account.Controllers.v1;
+namespace Ebanx.Services.Account.Web.Controllers.v1;
 
 /// <inheritdoc />
 [ApiController]
