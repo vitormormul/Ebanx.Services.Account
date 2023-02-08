@@ -3,8 +3,7 @@ using MediatR;
 
 namespace Ebanx.Services.Account.Application.Account.Queries.GetAccount;
 
-public class GetAccountQueryHandler : IRequestHandler<GetAccountQuery, AccountResult
->
+public class GetAccountQueryHandler : IRequestHandler<GetAccountQuery, AccountResult>
 {
     public Task<AccountResult> Handle(GetAccountQuery request, CancellationToken cancellationToken)
     {

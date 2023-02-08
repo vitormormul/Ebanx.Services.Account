@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "src\Web\Web.csproj",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{26329126-D8C3-43EC-B31F-E7449A52EA5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ebanx.Services.Account.Tests", "test\Ebanx.Services.Account.Tests\Ebanx.Services.Account.Tests.csproj", "{AE478308-0316-45CB-A6D7-9C8507EE10D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web.Tests", "test\Web.Tests\Web.Tests.csproj", "{AE478308-0316-45CB-A6D7-9C8507EE10D5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "src\Application\Application.csproj", "{813083B1-5E62-4A00-A049-530913E0F2A0}"
 EndProject
