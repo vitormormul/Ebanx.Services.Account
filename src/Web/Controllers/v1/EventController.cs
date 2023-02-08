@@ -1,6 +1,6 @@
 using System.Net;
-using Ebanx.Services.Account.Application.Account.Queries.GetAccount;
 using Ebanx.Services.Account.Application.Transaction.Commands.CreateTransaction;
+using Ebanx.Services.Account.Web.Contracts.Transaction;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 #pragma warning disable CS1591
@@ -26,11 +26,14 @@ public class EventController : ControllerBase
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.Created)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> Event(string account_id)
+    public async Task<IActionResult> Event([FromBody] CreateTransactionRequest request)
     {
-        var account = await _mediator.Send(new GetAccountQuery(account_id));
+        var command = new CreateTransactionCommand(request.Type, request.Amount, request.OriginAccount,
+            request.DestinationAccount);
+        
+        var result = await _mediator.Send(command);
 
-        if (account.Id == default)
+        if (result == default)
         {
             return NotFound();
         }

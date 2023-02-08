@@ -15,7 +15,7 @@ public static class DependencyInjection
         #endregion
 
         #region Application
-        serviceCollection.AddMediatR(typeof(Ebanx.Services.Account.Application.Account.Common.AccountResult).Assembly);
+        serviceCollection.AddMediatR(typeof(Ebanx.Services.Account.Application.Account.Command.CreateAccount.CreateAccountCommand).Assembly);
         #endregion
     }
 }

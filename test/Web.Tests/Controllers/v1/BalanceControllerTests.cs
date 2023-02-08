@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using Ebanx.Services.Account.Application.Account.Common;
 using Ebanx.Services.Account.Application.Account.Queries.GetAccount;
+using Ebanx.Services.Account.Domain.Account;
 using Ebanx.Services.Account.Web.Controllers.v1;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +21,7 @@ public class BalanceControllerTests
         _balanceController = new BalanceController(_mediatorMock.Object);
     }
 
-    private async Task Balance_Mock(AccountResult mediatorSetupResult, Type controllerExpectedResponse)
+    private async Task Balance_Mock(Account mediatorSetupResult, Type controllerExpectedResponse)
     {
         //Arrange
         _mediatorMock
@@ -41,7 +41,7 @@ public class BalanceControllerTests
     public async Task GetBalance_ShouldReturnOk_WhenAccountExists()
     {
         await Balance_Mock(
-            mediatorSetupResult: new AccountResult("01234", 100),
+            mediatorSetupResult: new Account("01234", 100),
             controllerExpectedResponse: typeof(OkResult));
     }
 
@@ -49,7 +49,7 @@ public class BalanceControllerTests
     public async Task GetBalance_ShouldReturnNotFound_WhenAccountDoesNotExist()
     {
         await Balance_Mock(
-            mediatorSetupResult: new AccountResult(default, default),
+            mediatorSetupResult: new Account(default, default),
             controllerExpectedResponse: typeof(NotFoundResult));
     }
 }

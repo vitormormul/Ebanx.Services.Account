@@ -1,7 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using Ebanx.Services.Account.Application.Account.Common;
 using Ebanx.Services.Account.Application.Account.Queries.GetAccount;
+using Ebanx.Services.Account.Domain.Account;
+using Ebanx.Services.Account.Web.Contracts.Transaction;
 using Ebanx.Services.Account.Web.Controllers.v1;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,7 @@ public class EventControllerTests
         _eventController = new EventController(_mediatorMock.Object);
     }
 
-    private async Task Event_Mock(AccountResult mediatorSetupResult, Type controllerExpectedResponse)
+    private async Task Event_Mock(Account mediatorSetupResult, Type controllerExpectedResponse)
     {
         //Arrange
         _mediatorMock
@@ -29,7 +30,7 @@ public class EventControllerTests
             .ReturnsAsync(mediatorSetupResult);
 
         //Act
-        var result = await _eventController.Event(mediatorSetupResult.Id!);
+        var result = await _eventController.Event(new CreateTransactionRequest());
 
         //Assert
         Assert.IsType(controllerExpectedResponse, result);
@@ -41,7 +42,7 @@ public class EventControllerTests
     public async Task GetBalance_ShouldReturnOk_WhenAccountExists()
     {
         await Event_Mock(
-            mediatorSetupResult: new AccountResult("01234", 100),
+            mediatorSetupResult: new Account("01234", 100),
             controllerExpectedResponse: typeof(OkResult));
     }
 
@@ -49,7 +50,7 @@ public class EventControllerTests
     public async Task GetBalance_ShouldReturnNotFound_WhenAccountDoesNotExist()
     {
         await Event_Mock(
-            mediatorSetupResult: new AccountResult(default, default),
+            mediatorSetupResult: new Account(default, default),
             controllerExpectedResponse: typeof(NotFoundResult));
     }
 }

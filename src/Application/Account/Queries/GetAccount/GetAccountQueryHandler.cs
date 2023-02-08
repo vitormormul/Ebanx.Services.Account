@@ -1,12 +1,11 @@
-using Ebanx.Services.Account.Application.Account.Common;
 using MediatR;
 
 namespace Ebanx.Services.Account.Application.Account.Queries.GetAccount;
 
-public class GetAccountQueryHandler : IRequestHandler<GetAccountQuery, AccountResult>
+public class GetAccountQueryHandler : IRequestHandler<GetAccountQuery, Domain.Account.Account>
 {
-    public Task<AccountResult> Handle(GetAccountQuery request, CancellationToken cancellationToken)
+    public Task<Domain.Account.Account> Handle(GetAccountQuery request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return Task.FromResult(new Domain.Account.Account(request.Id, 2121));
     }
 }

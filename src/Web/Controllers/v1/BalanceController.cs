@@ -1,5 +1,6 @@
 using System.Net;
 using Ebanx.Services.Account.Application.Account.Queries.GetAccount;
+using Ebanx.Services.Account.Web.Contracts.Account;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 #pragma warning disable CS1591
@@ -24,15 +25,15 @@ public class BalanceController : ControllerBase
     [HttpGet]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<IActionResult> Balance([FromQuery] string account_id)
+    public async Task<ActionResult<int>> Balance([FromQuery] string account_id)
     {
         var account = await _mediator.Send(new GetAccountQuery(account_id));
         
         if (account.Id == default)
         {
-            return NotFound();
+            return NotFound(0);
         }
         
-        return Ok();
+        return Ok(account.Balance);
     }
 }
