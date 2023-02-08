@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Ebanx.Services.Account.Application.Account.Command.CreateAccount;
+namespace Ebanx.Services.Account.Application.Account.Commands.CreateAccount;
 
 public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand, Domain.Account.Account>
 {

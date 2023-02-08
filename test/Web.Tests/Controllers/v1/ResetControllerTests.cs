@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Ebanx.Services.Account.Application.General.Command.ResetData;
+using Ebanx.Services.Account.Application.General.Commands.ResetData;
 using Ebanx.Services.Account.Web.Controllers.v1;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

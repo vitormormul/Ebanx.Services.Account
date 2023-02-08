@@ -1,5 +1,5 @@
 using System.Net;
-using Ebanx.Services.Account.Application.General.Command.ResetData;
+using Ebanx.Services.Account.Application.General.Commands.ResetData;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 #pragma warning disable CS1591

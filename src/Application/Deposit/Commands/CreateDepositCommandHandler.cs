@@ -1,4 +1,4 @@
-using Ebanx.Services.Account.Application.Account.Command.CreateAccount;
+using Ebanx.Services.Account.Application.Account.Commands.CreateAccount;
 using Ebanx.Services.Account.Application.Account.Queries.GetAccount;
 using MediatR;
 

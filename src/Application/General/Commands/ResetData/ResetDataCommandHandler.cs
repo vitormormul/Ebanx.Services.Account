@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Ebanx.Services.Account.Application.General.Command.ResetData;
+namespace Ebanx.Services.Account.Application.General.Commands.ResetData;
 
 public class ResetDataCommandHandler : IRequestHandler<ResetDataCommand>
 {

@@ -1,3 +1,4 @@
+using Ebanx.Services.Account.Application.Account.Commands.CreateAccount;
 using MediatR;
 
 #pragma warning disable CS1591
@@ -15,7 +16,7 @@ public static class DependencyInjection
         #endregion
 
         #region Application
-        serviceCollection.AddMediatR(typeof(Ebanx.Services.Account.Application.Account.Command.CreateAccount.CreateAccountCommand).Assembly);
+        serviceCollection.AddMediatR(typeof(CreateAccountCommand).Assembly);
         #endregion
     }
 }
