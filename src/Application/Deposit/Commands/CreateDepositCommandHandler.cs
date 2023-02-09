@@ -19,7 +19,6 @@ public class CreateDepositCommandHandler : IRequestHandler<CreateDepositCommand,
     public async Task<Domain.Transaction.Deposit> Handle(CreateDepositCommand request,
         CancellationToken cancellationToken)
     {
-        //TODO: create validators
         var account = await _mediator.Send(new GetAccountQuery(request.AccountId), cancellationToken);
 
         if (account == default)

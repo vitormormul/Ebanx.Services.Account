@@ -21,9 +21,8 @@ public class CreateTransactionCommandHandler : IRequestHandler<CreateTransaction
     {
         switch (request.Type)
         {
-            //TODO: create validators
             case TransactionType.Deposit:
-                return await _mediator.Send(new CreateDepositCommand(request.DestinationAccountId!, request.Amount),
+                return await _mediator.Send(new CreateDepositCommand(request.DestinationAccountId, request.Amount),
                     cancellationToken);
             case TransactionType.Transfer:
                 return await _mediator.Send(

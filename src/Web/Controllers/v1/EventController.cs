@@ -30,8 +30,7 @@ public class EventController : ControllerBase
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     public async Task<ActionResult<ITransaction>> Event([FromBody] CreateTransactionRequest request)
     {
-        var command = new CreateTransactionCommand(request.Type, request.Amount, request.OriginAccountId,
-            request.DestinationAccountId);
+        var command = new CreateTransactionCommand(request.Type, request.Amount, request.OriginAccountId, request.DestinationAccountId);
 
         var result = await _mediator.Send(command);
 

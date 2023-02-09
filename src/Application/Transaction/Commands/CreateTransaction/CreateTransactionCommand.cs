@@ -7,5 +7,5 @@ namespace Ebanx.Services.Account.Application.Transaction.Commands.CreateTransact
 public record CreateTransactionCommand(
     TransactionType? Type,
     int Amount,
-    string? OriginAccountId,
-    string? DestinationAccountId) : IRequest<ITransaction?>;
+    string OriginAccountId,
+    string DestinationAccountId) : IRequest<ITransaction?>;

@@ -1,10 +1,12 @@
 using System.Text.Json.Serialization;
 using Ebanx.Services.Account.Application.Account.Commands.CreateAccount;
+using Ebanx.Services.Account.Application.Common.Behavior;
 using Ebanx.Services.Account.Application.Common.Interfaces.Services;
 using Ebanx.Services.Account.Infrastructure.Interfaces;
 using Ebanx.Services.Account.Infrastructure.Persistence;
 using Ebanx.Services.Account.Infrastructure.Persistence.Repositories;
 using Ebanx.Services.Account.Infrastructure.Services;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,7 +33,11 @@ public static class DependencyInjection
 
         #region Application
 
-        serviceCollection.AddMediatR(typeof(CreateAccountCommand).Assembly);
+        var applicationAssembly = typeof(CreateAccountCommand).Assembly;
+
+        serviceCollection.AddMediatR(applicationAssembly);
+        serviceCollection.AddValidatorsFromAssembly(applicationAssembly);
+        serviceCollection.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         #endregion
 
