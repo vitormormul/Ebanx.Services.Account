@@ -14,6 +14,7 @@ public class BalanceControllerTests
 {
     private readonly BalanceController _balanceController;
     private readonly Mock<IMediator> _mediatorMock;
+    private readonly Account _accountFixture = new Account("0123", 100);
 
     public BalanceControllerTests()
     {
@@ -21,35 +22,34 @@ public class BalanceControllerTests
         _balanceController = new BalanceController(_mediatorMock.Object);
     }
 
-    private async Task Balance_Mock(Account mediatorSetupResult, Type controllerExpectedResponse)
+    private async Task Balance_Mock(string accountId, Account? mediatorSetupResult, (Type StatusCode, int Body) controllerExpectedResponse)
     {
         //Arrange
         _mediatorMock
-            .Setup(m => m.Send(It.Is<GetAccountQuery>(q => q.Id == mediatorSetupResult.Id), default))
+            .Setup(m => m.Send(It.Is<GetAccountQuery>(q => q.Id == accountId), default))
             .ReturnsAsync(mediatorSetupResult);
 
         //Act
-        var result = await _balanceController.Balance(mediatorSetupResult.Id!);
+        var result = (await _balanceController.Balance(accountId)).Result as ObjectResult;
 
         //Assert
-        Assert.IsType(controllerExpectedResponse, result.Result);
+        Assert.IsType(controllerExpectedResponse.StatusCode, result);
+        Assert.Equal(controllerExpectedResponse.Body, result?.Value);
         _mediatorMock
-            .Verify(m => m.Send(It.Is<GetAccountQuery>(q => q.Id == mediatorSetupResult.Id), default), Times.Once);
+            .Verify(m => m.Send(It.Is<GetAccountQuery>(q => q.Id == accountId), default), Times.Once);
     }
 
     [Fact]
     public async Task GetBalance_ShouldReturnOk_WhenAccountExists()
     {
-        await Balance_Mock(
-            new Account("01234", 100),
-            typeof(OkObjectResult));
+        var controllerExpectedResponse = (typeof(OkObjectResult), _accountFixture.Balance);
+        await Balance_Mock(_accountFixture.Id, _accountFixture, controllerExpectedResponse);
     }
 
     [Fact]
     public async Task GetBalance_ShouldReturnNotFound_WhenAccountDoesNotExist()
     {
-        await Balance_Mock(
-            new Account(default, default),
-            typeof(NotFoundObjectResult));
+        var controllerExpectedResponse = (typeof(NotFoundObjectResult), 0);
+        await Balance_Mock(_accountFixture.Id,  default, controllerExpectedResponse);
     }
 }

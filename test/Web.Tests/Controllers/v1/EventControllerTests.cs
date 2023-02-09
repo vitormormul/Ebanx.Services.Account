@@ -22,7 +22,7 @@ public class EventControllerTests
         _eventController = new EventController(_mediatorMock.Object);
     }
 
-    private async Task Event_Mock(Transaction mediatorSetupResult, Type controllerExpectedResponse)
+    private async Task Event_Mock(ITransaction? mediatorSetupResult, (Type StatusCode, object Body) controllerExpectedResponse)
     {
         //Arrange
         _mediatorMock
@@ -30,27 +30,26 @@ public class EventControllerTests
             .ReturnsAsync(mediatorSetupResult);
 
         //Act
-        var result = await _eventController.Event(new CreateTransactionRequest(default, default, default, default));
+        var result = (await _eventController.Event(new CreateTransactionRequest())).Result as ObjectResult;
 
         //Assert
-        Assert.IsType(controllerExpectedResponse, result);
+        Assert.IsType(controllerExpectedResponse.StatusCode, result);
+        Assert.Equal(controllerExpectedResponse.Body, result?.Value);
         _mediatorMock
             .Verify(m => m.Send(It.IsAny<CreateTransactionCommand>(), default), Times.Once);
     }
 
     [Fact]
-    public async Task GetBalance_ShouldReturnOk_WhenAccountExists()
+    public async Task Event_ShouldReturnOk_WhenTransactionIsPossible()
     {
-        await Event_Mock(
-            new Transaction(default, default, default, default),
-            typeof(OkResult));
+        (Type StatusCode, ITransaction Body) controllerExpectedResponse = (typeof(CreatedResult),  new Mock<ITransaction>().Object);
+        await Event_Mock(controllerExpectedResponse.Body, controllerExpectedResponse);
     }
 
     [Fact]
     public async Task Event_ShouldReturnNotFound_WhenTransactionIsNotPossible()
     {
-        await Event_Mock(
-            default,
-            typeof(NotFoundResult));
+        var controllerExpectedResponse = (typeof(NotFoundObjectResult), 0);
+        await Event_Mock(default, controllerExpectedResponse);
     }
 }

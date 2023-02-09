@@ -34,7 +34,7 @@ public class EventController : ControllerBase
 
         var result = await _mediator.Send(command);
 
-        if (result == default) return NotFound();
+        if (result == default) return NotFound(0);
 
         return Created(new Uri("/"), result);
     }
