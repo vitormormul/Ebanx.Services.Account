@@ -24,24 +24,22 @@ public class AccountWriter : IAccountWriter
         return new Deposit(await _accountRepository.UpdateAsync(account));
     }
 
-    public async Task<Transaction> CreateWithdrawAsync(Domain.Account.Account account, int amount)
+    public async Task<Withdraw> CreateWithdrawAsync(Domain.Account.Account account, int amount)
     {
         account.Withdraw(amount);
-
-        return default;
+        return new Withdraw(await _accountRepository.UpdateAsync(account));
     }
 
-    public async Task<Transaction> CreateTransferAsync(Transaction transaction)
+    public async Task<Transfer> CreateTransferAsync(Domain.Account.Account originAccount, Domain.Account.Account destinationAccount, int amount)
     {
-        return default;
-        //var originAccountTask = CreateWithdrawAsync(transaction);
-        //var destinationAccountTask = CreateDepositAsync(transaction);
+        var originAccountTask = CreateWithdrawAsync(originAccount, amount);
+        var destinationAccountTask = CreateDepositAsync(destinationAccount, amount);
 
-        //await Task.WhenAll(originAccountTask, destinationAccountTask);
+        await Task.WhenAll(originAccountTask, destinationAccountTask);
 
-        //var originAccount = originAccountTask.Result;
-        //var destinationAccount = destinationAccountTask.Result;
-        //return new Transaction(default, destinationAccount.DestinationAccount, originAccount.OriginAccountId, default);
+        var withdraw = originAccountTask.Result;
+        var deposit = destinationAccountTask.Result;
+        return new Transfer(withdraw.Origin, deposit.Destination);
     }
 
     public async Task ClearTable()

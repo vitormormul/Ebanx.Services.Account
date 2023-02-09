@@ -32,8 +32,7 @@ public class EventController : ControllerBase
     public async Task<ActionResult<Transaction>> Event([FromBody] CreateTransactionRequest request)
     {
         //TODO: refactor to bind body string to enum instead of force parsing
-        Enum.TryParse<TransactionType>(request.Type, out var type);
-        var command = new CreateTransactionCommand(type, request.Amount, request.OriginAccountId, request.DestinationAccountId);
+        var command = new CreateTransactionCommand(request.Type, request.Amount, request.OriginAccountId, request.DestinationAccountId);
 
         var result = await _mediator.Send(command);
 

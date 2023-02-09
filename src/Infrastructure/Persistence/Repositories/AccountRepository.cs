@@ -27,7 +27,7 @@ public class AccountRepository : IAccountRepository
     {
         _accountDbContext.Update(account);
         await _accountDbContext.SaveChangesAsync();
-        return await GetAsync(account.Id);
+        return account;
     }
 
     public async Task ClearTableAsync()
