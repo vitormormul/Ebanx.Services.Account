@@ -29,4 +29,14 @@ public class AccountRepository : IAccountRepository
         await _accountDbContext.SaveChangesAsync();
         return await GetAsync(account.Id);
     }
+
+    public async Task ClearTableAsync()
+    {
+        foreach (var account in _accountDbContext.Accounts)
+        {
+            _accountDbContext.Remove(account);
+        }
+
+        await _accountDbContext.SaveChangesAsync();
+    }
 }

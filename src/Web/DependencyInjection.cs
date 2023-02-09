@@ -38,7 +38,7 @@ public static class DependencyInjection
         #region Infrastructure
 
         serviceCollection.AddDbContext<AccountDbContext>(opt =>
-            opt.UseInMemoryDatabase("Ebanx.Services.Account"));
+            opt.UseInMemoryDatabase(AccountDbContext.DatabaseName));
 
         serviceCollection.AddTransient<IAccountRepository, AccountRepository>();
         serviceCollection.AddTransient<IAccountWriter, AccountWriter>();

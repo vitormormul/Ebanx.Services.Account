@@ -44,4 +44,9 @@ public class AccountWriter : IAccountWriter
 
         return new Transaction(default, destinationAccount.Destination, originAccount.Origin, default);
     }
+
+    public async Task ClearTable()
+    {
+        await _accountRepository.ClearTableAsync();
+    }
 }

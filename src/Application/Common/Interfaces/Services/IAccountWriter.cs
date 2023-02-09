@@ -6,4 +6,5 @@ public interface IAccountWriter
     Task<Domain.Transaction.Transaction> CreateDepositAsync(Domain.Transaction.Transaction transaction);
     Task<Domain.Transaction.Transaction> CreateWithdrawAsync(Domain.Transaction.Transaction transaction);
     Task<Domain.Transaction.Transaction> CreateTransferAsync(Domain.Transaction.Transaction transaction);
+    Task ClearTable();
 }
