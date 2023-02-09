@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Ebanx.Services.Account.Application.Transaction.Commands.CreateTransaction;
 
-public class CreateTransactionCommandHandler : IRequestHandler<CreateTransactionCommand, Domain.Transaction.Transaction?>
+public class CreateTransactionCommandHandler : IRequestHandler<CreateTransactionCommand, Domain.Transaction.ITransaction?>
 {
     private readonly IMediator _mediator;
 
@@ -13,14 +13,13 @@ public class CreateTransactionCommandHandler : IRequestHandler<CreateTransaction
         _mediator = mediator;
     }
 
-    public async Task<Domain.Transaction.Transaction?> Handle(CreateTransactionCommand request,
+    public async Task<Domain.Transaction.ITransaction?> Handle(CreateTransactionCommand request,
         CancellationToken cancellationToken)
     {
         switch (request.Type)
         {
             case TransactionType.Deposit:
-                return await _mediator.Send(new CreateDepositCommand(request.DestinationAccount!, request.Amount),
-                    cancellationToken);
+                return await _mediator.Send(new CreateDepositCommand(request.DestinationAccountId!, request.Amount), cancellationToken);
             case TransactionType.Transfer:
                 return await _mediator.Send(request, cancellationToken);
             case TransactionType.Withdraw:

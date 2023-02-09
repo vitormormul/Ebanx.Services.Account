@@ -18,31 +18,30 @@ public class AccountWriter : IAccountWriter
         return await _accountRepository.AddAsync(account);
     }
 
-    public async Task<Transaction> CreateDepositAsync(Transaction transaction)
+    public async Task<Deposit> CreateDepositAsync(Domain.Account.Account account, int amount)
     {
-        var account = transaction.Destination! with { Balance = transaction.Destination.Balance + transaction.Amount };
-
-        return transaction with { Origin = await _accountRepository.UpdateAsync(account) };
+        account.Deposit(amount);
+        return new Deposit(await _accountRepository.UpdateAsync(account));
     }
 
-    public async Task<Transaction> CreateWithdrawAsync(Transaction transaction)
+    public async Task<Transaction> CreateWithdrawAsync(Domain.Account.Account account, int amount)
     {
-        var account = transaction.Origin! with { Balance = transaction.Origin.Balance - transaction.Amount };
+        account.Withdraw(amount);
 
-        return transaction with { Destination = await _accountRepository.UpdateAsync(account) };
+        return default;
     }
 
     public async Task<Transaction> CreateTransferAsync(Transaction transaction)
     {
-        var originAccountTask = CreateWithdrawAsync(transaction);
-        var destinationAccountTask = CreateDepositAsync(transaction);
+        return default;
+        //var originAccountTask = CreateWithdrawAsync(transaction);
+        //var destinationAccountTask = CreateDepositAsync(transaction);
 
-        await Task.WhenAll(originAccountTask, destinationAccountTask);
+        //await Task.WhenAll(originAccountTask, destinationAccountTask);
 
-        var originAccount = originAccountTask.Result;
-        var destinationAccount = destinationAccountTask.Result;
-
-        return new Transaction(default, destinationAccount.Destination, originAccount.Origin, default);
+        //var originAccount = originAccountTask.Result;
+        //var destinationAccount = destinationAccountTask.Result;
+        //return new Transaction(default, destinationAccount.DestinationAccount, originAccount.OriginAccountId, default);
     }
 
     public async Task ClearTable()

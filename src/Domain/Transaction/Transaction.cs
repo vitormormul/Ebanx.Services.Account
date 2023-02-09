@@ -4,6 +4,6 @@ namespace Ebanx.Services.Account.Domain.Transaction;
 
 public record Transaction(
     TransactionType? Type,
-    Account.Account? Destination,
-    Account.Account? Origin,
+    string? DestinationAccountId,
+    string? OriginAccountId,
     int Amount);

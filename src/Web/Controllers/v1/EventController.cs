@@ -40,6 +40,6 @@ public class EventController : ControllerBase
         if (result == default) return NotFound();
 
         //TODO: refactor response Location header
-        return Created(new Uri(""),result);
+        return Created(new Uri("/"), result);
     }
 }

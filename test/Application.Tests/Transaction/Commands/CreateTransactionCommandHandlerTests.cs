@@ -47,12 +47,12 @@ public class CreateTransactionCommandHandlerTests
         var transaction =
             new Ebanx.Services.Account.Domain.Transaction.Transaction(TransactionType.Deposit, account, default, 100);
         var command = new CreateTransactionCommand(TransactionType.Deposit, transaction.Amount, default,
-            transaction.Destination!.Id);
+            transaction.DestinationAccountId!.Id);
 
         _mediatorMock
             .Setup(m => m.Send(
                 It.Is<CreateDepositCommand>(c =>
-                    c.AccountId == transaction.Destination!.Id && c.Amount == transaction.Amount), default))
+                    c.AccountId == transaction.DestinationAccountId!.Id && c.Amount == transaction.Amount), default))
             .ReturnsAsync(transaction);
 
         //Act
@@ -63,7 +63,7 @@ public class CreateTransactionCommandHandlerTests
             .Verify(
                 m => m.Send(
                     It.Is<CreateDepositCommand>(c =>
-                        c.AccountId == transaction.Destination!.Id && c.Amount == transaction.Amount), default),
+                        c.AccountId == transaction.DestinationAccountId!.Id && c.Amount == transaction.Amount), default),
                 Times.Once);
 
 
