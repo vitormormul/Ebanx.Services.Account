@@ -2,6 +2,7 @@ using System.Net;
 using Ebanx.Services.Account.Application.General.Commands.ResetData;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+
 #pragma warning disable CS1591
 
 namespace Ebanx.Services.Account.Web.Controllers.v1;
@@ -19,7 +20,7 @@ public class ResetController : ControllerBase
     }
 
     /// <summary>
-    /// Reset state before starting tests.
+    ///     Reset state before starting tests.
     /// </summary>
     /// <returns></returns>
     [HttpPost]

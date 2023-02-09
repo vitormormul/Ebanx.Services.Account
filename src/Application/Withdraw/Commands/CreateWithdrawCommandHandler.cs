@@ -12,14 +12,12 @@ public class CreateWithdrawCommandHandler : IRequestHandler<CreateWithdrawComman
         _mediator = mediator;
     }
 
-    public async Task<Domain.Transaction.Transaction> Handle(CreateWithdrawCommand request, CancellationToken cancellationToken)
+    public async Task<Domain.Transaction.Transaction> Handle(CreateWithdrawCommand request,
+        CancellationToken cancellationToken)
     {
         var account = await _mediator.Send(new GetAccountQuery(request.AccountId));
 
-        if (account.Id == default)
-        {
-            return default;
-        }
+        if (account.Id == default) return default;
 
         return default;
     }

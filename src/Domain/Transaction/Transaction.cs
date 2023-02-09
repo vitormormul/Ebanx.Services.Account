@@ -6,4 +6,4 @@ public record Transaction(
     TransactionType? Type,
     Account.Account? Destination,
     Account.Account? Origin,
-    int? Amount);
+    int Amount);

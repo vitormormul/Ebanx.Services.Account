@@ -1,3 +1,4 @@
+using Ebanx.Services.Account.Application.Deposit.Commands;
 using Ebanx.Services.Account.Domain.Transaction.Entities;
 using MediatR;
 
@@ -12,19 +13,17 @@ public class CreateTransactionCommandHandler : IRequestHandler<CreateTransaction
         _mediator = mediator;
     }
 
-    public async Task<Domain.Transaction.Transaction> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
+    public async Task<Domain.Transaction.Transaction> Handle(CreateTransactionCommand request,
+        CancellationToken cancellationToken)
     {
         switch (request.Type)
         {
             case TransactionType.Deposit:
-                return await _mediator.Send(request, cancellationToken);
-                break;
+                return await _mediator.Send(new CreateDepositCommand(request.DestinationAccount!, request.Amount), cancellationToken);
             case TransactionType.Transfer:
                 return await _mediator.Send(request, cancellationToken);
-                break;
             case TransactionType.Withdraw:
                 return await _mediator.Send(request, cancellationToken);
-                break;
             default:
                 return default;
         }

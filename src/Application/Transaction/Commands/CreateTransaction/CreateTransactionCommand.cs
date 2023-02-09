@@ -1,4 +1,3 @@
-using Ebanx.Services.Account.Domain.Account.ValueObjects;
 using Ebanx.Services.Account.Domain.Transaction.Entities;
 using MediatR;
 
@@ -7,5 +6,5 @@ namespace Ebanx.Services.Account.Application.Transaction.Commands.CreateTransact
 public record CreateTransactionCommand(
     TransactionType Type,
     int Amount,
-    AccountId? OriginAccount,
-    AccountId? DestinationAccount) : IRequest<Domain.Transaction.Transaction>;
+    string? OriginAccount,
+    string? DestinationAccount) : IRequest<Domain.Transaction.Transaction>;

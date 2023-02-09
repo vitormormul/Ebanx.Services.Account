@@ -9,14 +9,18 @@ public static class DependencyInjection
     public static void ConfigureServices(this IServiceCollection serviceCollection)
     {
         #region Base
+
         serviceCollection.AddControllers();
         serviceCollection.AddEndpointsApiExplorer();
         serviceCollection.AddSwaggerGen();
         serviceCollection.AddRouting(opt => opt.LowercaseUrls = true);
+
         #endregion
 
         #region Application
+
         serviceCollection.AddMediatR(typeof(CreateAccountCommand).Assembly);
+
         #endregion
     }
 }

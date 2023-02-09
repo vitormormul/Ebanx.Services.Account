@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <RootNamespace>Ebanx.Services.Account.Domain</RootNamespace>
-    <AssemblyName>Ebanx.Services.Account.Domain</AssemblyName>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Ebanx.Services.Account.Domain</RootNamespace>
+        <AssemblyName>Ebanx.Services.Account.Domain</AssemblyName>
+    </PropertyGroup>
 
 </Project>

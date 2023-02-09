@@ -3,6 +3,7 @@ using Ebanx.Services.Account.Application.Transaction.Commands.CreateTransaction;
 using Ebanx.Services.Account.Web.Contracts.Transaction;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+
 #pragma warning disable CS1591
 
 namespace Ebanx.Services.Account.Web.Controllers.v1;
@@ -20,7 +21,7 @@ public class EventController : ControllerBase
     }
 
     /// <summary>
-    /// Create transactions.
+    ///     Create transactions.
     /// </summary>
     /// <returns></returns>
     [HttpPost]
@@ -30,13 +31,10 @@ public class EventController : ControllerBase
     {
         var command = new CreateTransactionCommand(request.Type, request.Amount, request.OriginAccount,
             request.DestinationAccount);
-        
+
         var result = await _mediator.Send(command);
 
-        if (result == default)
-        {
-            return NotFound();
-        }
+        if (result == default) return NotFound();
 
         return Ok();
     }

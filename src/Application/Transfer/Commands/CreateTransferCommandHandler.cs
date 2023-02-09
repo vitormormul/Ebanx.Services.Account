@@ -12,6 +12,17 @@ public class CreateTransferCommandHandler : IRequestHandler<CreateTransferComman
         _mediator = mediator;
     }
 
+    public async Task<Domain.Transaction.Transaction> Handle(CreateTransferCommand request,
+        CancellationToken cancellationToken)
+    {
+        var (originAccount, destinationAccount) = await GetAccountsAsync(request);
+
+        if (originAccount.Id == default || destinationAccount.Id == default)
+            return new Domain.Transaction.Transaction(default, default, default, default);
+
+        return new Domain.Transaction.Transaction(default, default, default, default);
+    }
+
     private async Task<(Domain.Account.Account, Domain.Account.Account)> GetAccountsAsync(CreateTransferCommand request)
     {
         var originAccountTask = _mediator.Send(new GetAccountQuery(request.OriginAccountId));
@@ -20,17 +31,5 @@ public class CreateTransferCommandHandler : IRequestHandler<CreateTransferComman
         await Task.WhenAll(originAccountTask, destinationAccountTask);
 
         return (originAccountTask.Result, destinationAccountTask.Result);
-    }
-
-    public async Task<Domain.Transaction.Transaction> Handle(CreateTransferCommand request, CancellationToken cancellationToken)
-    {
-        var (originAccount, destinationAccount) = await GetAccountsAsync(request);
-
-        if (originAccount.Id == default || destinationAccount.Id == default)
-        {
-            return new Domain.Transaction.Transaction(default, default, default, default);
-        }
-        
-        return new Domain.Transaction.Transaction(default, default, default, default);
     }
 }

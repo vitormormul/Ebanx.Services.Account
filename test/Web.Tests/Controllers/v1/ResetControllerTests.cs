@@ -12,7 +12,7 @@ public class ResetControllerTests
 {
     private readonly Mock<IMediator> _mediatorMock;
     private readonly ResetController _resetController;
-    
+
     public ResetControllerTests()
     {
         _mediatorMock = new Mock<IMediator>();
