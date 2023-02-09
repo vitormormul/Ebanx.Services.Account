@@ -1,4 +1,3 @@
-using System.Reflection;
 using System.Text.Json.Serialization;
 using Ebanx.Services.Account.Application.Account.Commands.CreateAccount;
 using Ebanx.Services.Account.Application.Common.Interfaces.Services;

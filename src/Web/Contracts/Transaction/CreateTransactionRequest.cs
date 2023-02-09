@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-using Ebanx.Services.Account.Domain.Transaction.Entities;
 
 #pragma warning disable CS1591
 namespace Ebanx.Services.Account.Web.Contracts.Transaction;

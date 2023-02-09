@@ -23,7 +23,7 @@ public class EventController : ControllerBase
     }
 
     /// <summary>
-    /// Create transactions.
+    ///     Create transactions.
     /// </summary>
     /// <returns></returns>
     [HttpPost]
@@ -33,7 +33,8 @@ public class EventController : ControllerBase
     {
         //TODO: refactor to bind body string to enum instead of force parsing
         Enum.TryParse<TransactionType>(request.Type, out var type);
-        var command = new CreateTransactionCommand(type, request.Amount, request.OriginAccountId, request.DestinationAccountId);
+        var command = new CreateTransactionCommand(type, request.Amount, request.OriginAccountId,
+            request.DestinationAccountId);
 
         var result = await _mediator.Send(command);
 

@@ -1,7 +1,6 @@
 using Ebanx.Services.Account.Application.Common.Interfaces.Services;
 using Ebanx.Services.Account.Domain.Transaction;
 using Ebanx.Services.Account.Infrastructure.Interfaces;
-using Ebanx.Services.Account.Infrastructure.Persistence.Repositories;
 
 namespace Ebanx.Services.Account.Infrastructure.Services;
 
@@ -43,6 +42,6 @@ public class AccountWriter : IAccountWriter
         var originAccount = originAccountTask.Result;
         var destinationAccount = destinationAccountTask.Result;
 
-        return new Transaction(default, destinationAccount.Destination,originAccount.Origin, default);
+        return new Transaction(default, destinationAccount.Destination, originAccount.Origin, default);
     }
 }
