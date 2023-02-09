@@ -32,10 +32,7 @@ public class AccountRepository : IAccountRepository
 
     public async Task ClearTableAsync()
     {
-        foreach (var account in _accountDbContext.Accounts)
-        {
-            _accountDbContext.Remove(account);
-        }
+        foreach (var account in _accountDbContext.Accounts) _accountDbContext.Remove(account);
 
         await _accountDbContext.SaveChangesAsync();
     }

@@ -22,7 +22,6 @@ public class ResetController : ControllerBase
     /// <summary>
     ///     Reset state before starting tests.
     /// </summary>
-    /// <returns></returns>
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     public async Task<IActionResult> Reset()

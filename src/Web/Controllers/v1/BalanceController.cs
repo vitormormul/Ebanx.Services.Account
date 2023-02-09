@@ -22,7 +22,7 @@ public class BalanceController : ControllerBase
     /// <summary>
     ///     Get balance for an existing account.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Returns current account balance if account exists.</returns>
     [HttpGet]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]

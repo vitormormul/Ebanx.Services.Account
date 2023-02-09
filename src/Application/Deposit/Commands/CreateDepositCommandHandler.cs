@@ -7,9 +7,8 @@ namespace Ebanx.Services.Account.Application.Deposit.Commands;
 
 public class CreateDepositCommandHandler : IRequestHandler<CreateDepositCommand, Domain.Transaction.Deposit>
 {
-    private readonly IMediator _mediator;
-
     private readonly IAccountWriter _accountWriter;
+    private readonly IMediator _mediator;
 
     public CreateDepositCommandHandler(IMediator mediator, IAccountWriter accountWriter)
     {
@@ -17,14 +16,16 @@ public class CreateDepositCommandHandler : IRequestHandler<CreateDepositCommand,
         _accountWriter = accountWriter;
     }
 
-    public async Task<Domain.Transaction.Deposit> Handle(CreateDepositCommand request, CancellationToken cancellationToken)
+    public async Task<Domain.Transaction.Deposit> Handle(CreateDepositCommand request,
+        CancellationToken cancellationToken)
     {
         //TODO: create validators
         var account = await _mediator.Send(new GetAccountQuery(request.AccountId), cancellationToken);
 
         if (account == default)
         {
-            var createdAccount = await _mediator.Send(new CreateAccountCommand(request.AccountId, request.Amount), cancellationToken);
+            var createdAccount = await _mediator.Send(new CreateAccountCommand(request.AccountId, request.Amount),
+                cancellationToken);
             return new Domain.Transaction.Deposit(createdAccount);
         }
 

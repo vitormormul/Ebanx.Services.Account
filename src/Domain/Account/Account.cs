@@ -7,8 +7,10 @@ public record Account
         Id = id;
         Balance = balance;
     }
+
     public string Id { get; set; }
     public int Balance { get; set; }
+
     public int Deposit(int amount)
     {
         Balance += amount;
@@ -20,4 +22,4 @@ public record Account
         Balance -= amount;
         return Balance;
     }
-};
+}

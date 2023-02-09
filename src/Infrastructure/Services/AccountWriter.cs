@@ -30,7 +30,8 @@ public class AccountWriter : IAccountWriter
         return new Withdraw(await _accountRepository.UpdateAsync(account));
     }
 
-    public async Task<Transfer> CreateTransferAsync(Domain.Account.Account originAccount, Domain.Account.Account destinationAccount, int amount)
+    public async Task<Transfer> CreateTransferAsync(Domain.Account.Account originAccount,
+        Domain.Account.Account destinationAccount, int amount)
     {
         var originAccountTask = CreateWithdrawAsync(originAccount, amount);
         var destinationAccountTask = CreateDepositAsync(destinationAccount, amount);

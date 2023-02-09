@@ -1,7 +1,6 @@
 using System.Net;
 using Ebanx.Services.Account.Application.Transaction.Commands.CreateTransaction;
 using Ebanx.Services.Account.Domain.Transaction;
-using Ebanx.Services.Account.Domain.Transaction.Entities;
 using Ebanx.Services.Account.Web.Contracts.Transaction;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -25,20 +24,19 @@ public class EventController : ControllerBase
     /// <summary>
     ///     Create transactions.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Returns transaction which can be either a deposit, a withdraw or transfer between accounts.</returns>
     [HttpPost]
     [ProducesResponseType((int)HttpStatusCode.Created)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
-    public async Task<ActionResult<Transaction>> Event([FromBody] CreateTransactionRequest request)
+    public async Task<ActionResult<ITransaction>> Event([FromBody] CreateTransactionRequest request)
     {
-        //TODO: refactor to bind body string to enum instead of force parsing
-        var command = new CreateTransactionCommand(request.Type, request.Amount, request.OriginAccountId, request.DestinationAccountId);
+        var command = new CreateTransactionCommand(request.Type, request.Amount, request.OriginAccountId,
+            request.DestinationAccountId);
 
         var result = await _mediator.Send(command);
 
         if (result == default) return NotFound();
 
-        //TODO: refactor response Location header
         return Created(new Uri("/"), result);
     }
 }

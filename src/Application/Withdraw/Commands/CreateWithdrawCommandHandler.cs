@@ -6,8 +6,8 @@ namespace Ebanx.Services.Account.Application.Withdraw.Commands;
 
 public class CreateWithdrawCommandHandler : IRequestHandler<CreateWithdrawCommand, Domain.Transaction.Withdraw?>
 {
-    private readonly IMediator _mediator;
     private readonly IAccountWriter _accountWriter;
+    private readonly IMediator _mediator;
 
     public CreateWithdrawCommandHandler(IMediator mediator, IAccountWriter accountWriter)
     {

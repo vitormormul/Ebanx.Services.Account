@@ -1,3 +1,4 @@
+using Ebanx.Services.Account.Domain.Transaction;
 using Ebanx.Services.Account.Domain.Transaction.Entities;
 using MediatR;
 
@@ -7,4 +8,4 @@ public record CreateTransactionCommand(
     TransactionType? Type,
     int Amount,
     string? OriginAccountId,
-    string? DestinationAccountId) : IRequest<Domain.Transaction.ITransaction?>;
+    string? DestinationAccountId) : IRequest<ITransaction?>;
