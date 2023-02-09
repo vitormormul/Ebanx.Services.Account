@@ -33,13 +33,13 @@ public class EventController : ControllerBase
     {
         //TODO: refactor to bind body string to enum instead of force parsing
         Enum.TryParse<TransactionType>(request.Type, out var type);
-        var command = new CreateTransactionCommand(type, request.Amount, request.OriginAccountId,
-            request.DestinationAccountId);
+        var command = new CreateTransactionCommand(type, request.Amount, request.OriginAccountId, request.DestinationAccountId);
 
         var result = await _mediator.Send(command);
 
         if (result == default) return NotFound();
 
-        return Ok(result);
+        //TODO: refactor response Location header
+        return Created(new Uri(""),result);
     }
 }

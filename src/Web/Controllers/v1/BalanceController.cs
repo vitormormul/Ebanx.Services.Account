@@ -30,7 +30,7 @@ public class BalanceController : ControllerBase
     {
         var account = await _mediator.Send(new GetAccountQuery(account_id));
 
-        if (account.Id == default) return NotFound(0);
+        if (account == default) return NotFound(0);
 
         return Ok(account.Balance);
     }

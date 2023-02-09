@@ -7,4 +7,4 @@ public record CreateTransactionCommand(
     TransactionType? Type,
     int Amount,
     string? OriginAccount,
-    string? DestinationAccount) : IRequest<Domain.Transaction.Transaction>;
+    string? DestinationAccount) : IRequest<Domain.Transaction.Transaction?>;
