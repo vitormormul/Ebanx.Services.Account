@@ -18,11 +18,11 @@ public class CreateDepositCommandHandler : IRequestHandler<CreateDepositCommand,
     {
         var account = await _mediator.Send(new GetAccountQuery(request.AccountId), cancellationToken);
 
-        if (account.Id == default)
+        if (account == default)
         {
             var createdAccount = await _mediator.Send(new CreateAccountCommand(request.AccountId, request.Amount),
                 cancellationToken);
-            return new Domain.Transaction.Transaction(default, default, createdAccount, default);
+            return new Domain.Transaction.Transaction(default, createdAccount, default, default);
         }
 
         return new Domain.Transaction.Transaction(default, default, default, default);

@@ -1,11 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using Ebanx.Services.Account.Application.Account.Queries.GetAccount;
-using Ebanx.Services.Account.Application.Deposit.Commands;
 using Ebanx.Services.Account.Application.Transaction.Commands.CreateTransaction;
-using Ebanx.Services.Account.Domain.Account;
 using Ebanx.Services.Account.Domain.Transaction;
-using Ebanx.Services.Account.Domain.Transaction.Entities;
 using Ebanx.Services.Account.Web.Contracts.Transaction;
 using Ebanx.Services.Account.Web.Controllers.v1;
 using MediatR;
@@ -46,7 +42,7 @@ public class EventControllerTests
     public async Task GetBalance_ShouldReturnOk_WhenAccountExists()
     {
         await Event_Mock(
-            new Transaction(default, default,default, default),
+            new Transaction(default, default, default, default),
             typeof(OkResult));
     }
 

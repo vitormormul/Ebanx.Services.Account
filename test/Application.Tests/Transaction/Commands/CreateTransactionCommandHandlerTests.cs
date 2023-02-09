@@ -48,9 +48,11 @@ public class CreateTransactionCommandHandlerTests
             new Ebanx.Services.Account.Domain.Transaction.Transaction(TransactionType.Deposit, account, default, 100);
         var command = new CreateTransactionCommand(TransactionType.Deposit, transaction.Amount, default,
             transaction.Destination!.Id);
-        
+
         _mediatorMock
-            .Setup(m => m.Send(It.Is<CreateDepositCommand>(c => c.AccountId == transaction.Destination!.Id && c.Amount == transaction.Amount), default))
+            .Setup(m => m.Send(
+                It.Is<CreateDepositCommand>(c =>
+                    c.AccountId == transaction.Destination!.Id && c.Amount == transaction.Amount), default))
             .ReturnsAsync(transaction);
 
         //Act
@@ -58,10 +60,13 @@ public class CreateTransactionCommandHandlerTests
 
         //Assert
         _mediatorMock
-            .Verify(m => m.Send(It.Is<CreateDepositCommand>(c => c.AccountId == transaction.Destination!.Id && c.Amount == transaction.Amount), default), Times.Once);
-        
-        
-        
+            .Verify(
+                m => m.Send(
+                    It.Is<CreateDepositCommand>(c =>
+                        c.AccountId == transaction.Destination!.Id && c.Amount == transaction.Amount), default),
+                Times.Once);
+
+
         //var command = new CreateTransactionCommand(TransactionType.Deposit, 4321, default, new AccountId("01234"));
         //var account = new Ebanx.Services.Account.Domain.Account.Account(command.DestinationAccount!.Value, command.Amount);
         //

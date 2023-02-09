@@ -1,11 +1,20 @@
+using Ebanx.Services.Account.Application.Common.Interfaces.Services;
 using MediatR;
 
 namespace Ebanx.Services.Account.Application.Account.Commands.CreateAccount;
 
 public class CreateAccountCommandHandler : IRequestHandler<CreateAccountCommand, Domain.Account.Account>
 {
-    public Task<Domain.Account.Account> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+    private readonly IAccountWriter _accountWriter;
+
+    public CreateAccountCommandHandler(IAccountWriter accountWriter)
     {
-        throw new NotImplementedException();
+        _accountWriter = accountWriter;
+    }
+
+    public async Task<Domain.Account.Account> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
+    {
+        var newAccount = new Domain.Account.Account(request.Id, request.Balance);
+        return await _accountWriter.CreateAsync(newAccount);
     }
 }

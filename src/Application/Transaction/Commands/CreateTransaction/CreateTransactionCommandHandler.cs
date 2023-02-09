@@ -19,7 +19,8 @@ public class CreateTransactionCommandHandler : IRequestHandler<CreateTransaction
         switch (request.Type)
         {
             case TransactionType.Deposit:
-                return await _mediator.Send(new CreateDepositCommand(request.DestinationAccount!, request.Amount), cancellationToken);
+                return await _mediator.Send(new CreateDepositCommand(request.DestinationAccount!, request.Amount),
+                    cancellationToken);
             case TransactionType.Transfer:
                 return await _mediator.Send(request, cancellationToken);
             case TransactionType.Withdraw:
