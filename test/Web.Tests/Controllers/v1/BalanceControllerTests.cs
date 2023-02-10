@@ -22,7 +22,7 @@ public class BalanceControllerTests
         _balanceController = new BalanceController(_mediatorMock.Object);
     }
 
-    private async Task RunBalanceTest(string accountId, Account? mediatorSetupResult, (Type StatusCode, int Body) controllerExpectedResponse)
+    private async Task BalanceTest(string accountId, Account? mediatorSetupResult, (Type StatusCode, int Body) controllerExpectedResponse)
     {
         //Arrange
         _mediatorMock
@@ -43,13 +43,13 @@ public class BalanceControllerTests
     public async Task GetBalance_ShouldReturnOk_WhenAccountExists()
     {
         var controllerExpectedResponse = (typeof(OkObjectResult), _accountFixture.Balance);
-        await RunBalanceTest(_accountFixture.Id, _accountFixture, controllerExpectedResponse);
+        await BalanceTest(_accountFixture.Id, _accountFixture, controllerExpectedResponse);
     }
 
     [Fact]
     public async Task GetBalance_ShouldReturnNotFound_WhenAccountDoesNotExist()
     {
         var controllerExpectedResponse = (typeof(NotFoundObjectResult), 0);
-        await RunBalanceTest(_accountFixture.Id,  default, controllerExpectedResponse);
+        await BalanceTest(_accountFixture.Id,  default, controllerExpectedResponse);
     }
 }

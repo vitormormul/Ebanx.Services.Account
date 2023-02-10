@@ -37,8 +37,10 @@ public class CreateTransactionCommandHandlerTests
     [Fact]
     public async Task Handle_ShouldSendNewCommand_WhenTransactionHasType()
     {
-        await HandleTest<CreateDepositCommand>(_commandFixture with {Type = TransactionType.Deposit});
-        await HandleTest<CreateWithdrawCommand>(_commandFixture with {Type = TransactionType.Withdraw});
-        await HandleTest<CreateTransferCommand>(_commandFixture with {Type = TransactionType.Transfer});
+        var testDepositTask = HandleTest<CreateDepositCommand>(_commandFixture with {Type = TransactionType.Deposit});
+        var testWithdrawTask = HandleTest<CreateWithdrawCommand>(_commandFixture with {Type = TransactionType.Withdraw});
+        var testTransferTask = HandleTest<CreateTransferCommand>(_commandFixture with {Type = TransactionType.Transfer});
+
+        await Task.WhenAll(testDepositTask, testWithdrawTask, testTransferTask);
     }
 }

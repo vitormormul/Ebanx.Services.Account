@@ -1,3 +1,4 @@
+using Ebanx.Services.Account.Application.Common.Constants;
 using FluentValidation;
 
 namespace Ebanx.Services.Account.Application.Account.Commands.CreateAccount;
@@ -7,7 +8,7 @@ public class CreateAccountCommandValidator : AbstractValidator<CreateAccountComm
     public CreateAccountCommandValidator()
     {
         RuleFor(command => command.Id).NotEmpty();
-        RuleFor(command => command.Id).Matches(@"^[0-9]+$");
+        RuleFor(command => command.Id).Matches(RegexConstants.OnlyNumbers);
         RuleFor(command => command.Balance).GreaterThanOrEqualTo(0);
     }
 }
