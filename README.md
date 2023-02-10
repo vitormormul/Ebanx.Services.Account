@@ -1,67 +1,21 @@
---
-# Reset state before starting tests
+# Take Home assignment from EBANX
 
-POST /reset
+.NET 6.0 API developed following https://ipkiss.pragmazero.com/ requirements.
 
-200 OK
+API structured according to practices and principles such as Clean Code,
+Clean Architecture, DDD, TDD, and SOLID.
 
+## Install and Run
 
---
-# Get balance for non-existing account
+Install [.NET 6.0](https://dotnet.microsoft.com/en-us/download), clone this
+repository and run the following command from the root path.
 
-GET /balance?account_id=1234
+```sh
+dotnet run --project src/Web/
+```
 
-404 0
+Use the following command to run tests root path.
 
-
---
-# Create account with initial balance
-
-POST /event {"type":"deposit", "destination":"100", "amount":10}
-
-201 {"destination": {"id":"100", "balance":10}}
-
-
---
-# Deposit into existing account
-
-POST /event {"type":"deposit", "destination":"100", "amount":10}
-
-201 {"destination": {"id":"100", "balance":20}}
-
-
---
-# Get balance for existing account
-
-GET /balance?account_id=100
-
-200 20
-
---
-# Withdraw from non-existing account
-
-POST /event {"type":"withdraw", "origin":"200", "amount":10}
-
-404 0
-
---
-# Withdraw from existing account
-
-POST /event {"type":"withdraw", "origin":"100", "amount":5}
-
-201 {"origin": {"id":"100", "balance":15}}
-
---
-# Transfer from existing account
-
-POST /event {"type":"transfer", "origin":"100", "amount":15, "destination":"300"}
-
-201 {"origin": {"id":"100", "balance":0}, "destination": {"id":"300", "balance":15}}
-
---
-# Transfer from non-existing account
-
-POST /event {"type":"transfer", "origin":"200", "amount":15, "destination":"300"}
-
-404 0
-
+```sh
+dotnet test
+```

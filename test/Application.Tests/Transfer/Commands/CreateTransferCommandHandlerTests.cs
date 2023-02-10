@@ -33,13 +33,15 @@ public class CreateTransferCommandHandlerTests
     private Ebanx.Services.Account.Domain.Transaction.Transfer TransferFixture =>
         new(AccountFixture, AccountFixture);
 
-    private async Task HandleTest(Ebanx.Services.Account.Domain.Account.Account? mediatorCommandResult,
-        Times writerTimes)
+    private async Task HandleTest(Ebanx.Services.Account.Domain.Account.Account? originAccountResult,
+        Ebanx.Services.Account.Domain.Account.Account? destinationAccountResult, Times writerTimes)
     {
         //Arrange
         _mediatorMock
-            .Setup(m => m.Send(It.IsAny<GetAccountQuery>(), default))
-            .ReturnsAsync(mediatorCommandResult);
+            .SetupSequence(m => m.Send(It.IsAny<GetAccountQuery>(), default))
+            .ReturnsAsync(originAccountResult)
+            .ReturnsAsync(destinationAccountResult);
+        ;
 
         //Act
         await _handler.Handle(new CreateTransferCommand("1234", "4321", 100), default);
@@ -57,12 +59,18 @@ public class CreateTransferCommandHandlerTests
     [Fact]
     public async Task Handle_ShouldCreateTransfer_WhenAccountsExist()
     {
-        await HandleTest(AccountFixture, Times.Once());
+        await HandleTest(AccountFixture, AccountFixture, Times.Once());
     }
 
     [Fact]
-    public async Task Handle_ShouldNotCreateTransfer_WhenAccountsDoNotExist()
+    public async Task Handle_ShouldNotCreateTransfer_WhenOriginAccountsDoNotExist()
     {
-        await HandleTest(default, Times.Never());
+        await HandleTest(default, AccountFixture, Times.Never());
+    }
+
+    [Fact]
+    public async Task Handle_ShouldCreateAccountAndCreateTransfer_WhenDestinationAccountsDoesNotExist()
+    {
+        await HandleTest(AccountFixture, default, Times.Once());
     }
 }

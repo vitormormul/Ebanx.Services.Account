@@ -9,7 +9,7 @@ namespace Ebanx.Services.Account.Web.Controllers.v1;
 
 [ApiController]
 [Route("[controller]")]
-[Produces("application/json")]
+[Produces("text/plain")]
 public class ResetController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -23,10 +23,10 @@ public class ResetController : ControllerBase
     ///     Reset state before starting tests.
     /// </summary>
     [HttpPost]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Reset()
+    [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<string>> Reset()
     {
         await _mediator.Send(new ResetDataCommand());
-        return Ok();
+        return Ok("OK");
     }
 }
