@@ -33,9 +33,9 @@ The application is a .NET 6.0 API developed following https://ipkiss.pragmazero.
   - Among the mediator behavior, its pipeline was used to attach a validator for each request created.
 - The data is persisted to an in-memory database. Once the application is down, the data is lost.
   - The mediator approach also ensured CQRS, distinguishing the requests between command or query.
-  - The CQRS approach was used, using interfaces required from the Application layer which were implemented
-    by the Infrastructure layer. There was one for reading and another for writing operations
-    - This approach also relies on Integration Segregation from SOLID principles.
+  - The CQRS approach was used with interfaces required from the Application layer which were implemented
+    by the Infrastructure layer. There was one interface for reading and another for writing operations.
+    - This approach also relies on Interface Segregation from SOLID principles.
 
 ### Example
 
@@ -43,14 +43,15 @@ The following section explains the flow of a deposit operation.
 
 1. Calling `POST /event {"type":"deposit", "destination":"100", "amount":10}` would reach the `/event` endpoint in the
    Web layer.
-2. Inside the controller, it is translated to a `CreateTransactionCommand` handled by a `CreateTransactionCommandHandler`
-   in the Application layer.
+2. Inside the controller, the request is translated to a `CreateTransactionCommand` handled by a
+`CreateTransactionCommandHandler` in the Application layer.
 3. The handler translates the deposit to a `CreateDepositCommand` that is handled by a `CreateDepositCommandHandler`.
 4. During the handling process, a validator for each request (command) is also done.
-5. The last handler consumes a `IAccountWriter` to do a writing operation with the account in the Infrastructure layer.
-6. If the account exists, the deposit amount is added to its balance. Otherwise, the account is created with a balance
-   equals to the deposit amount.
-7. The response is returned as a deposit domain model.
+5. The last handler consumes an `IAccountWriter` to do writing operations from the Infrastructure layer.
+6. The deposit handler creates a `GetAccountQuery` to check if the account already exists.
+7. If the account exists, the deposit amount is added to its balance from `IAccountWriter`. Otherwise, the account is
+created with a balance with deposit amount using a `CreateAccountCommand`.
+8. The response is returned as a deposit domain model.
 
 ## Install and Run
 
