@@ -18,7 +18,7 @@ jobs:
       - name: Github Action to checkout to current branch
         uses: actions/checkout@v3
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@3
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - name: Install dependencies
