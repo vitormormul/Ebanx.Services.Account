@@ -21,12 +21,13 @@ public class CreateTransferCommandHandler : IRequestHandler<CreateTransferComman
     {
         var originAccountTask = _mediator.Send(new GetAccountQuery(request.OriginAccountId));
         var destinationAccountTask = _mediator.Send(new GetAccountQuery(request.DestinationAccountId));
-        
+
         var originAccount = await originAccountTask;
         if (originAccount == default) return default;
 
         var destinationAccount = await destinationAccountTask
-                                 ?? await _mediator.Send(new CreateAccountCommand(request.DestinationAccountId, 0), cancellationToken);
+                                 ?? await _mediator.Send(new CreateAccountCommand(request.DestinationAccountId, 0),
+                                     cancellationToken);
 
         return await _accountWriter.CreateTransferAsync(originAccount, destinationAccount, request.Amount);
     }

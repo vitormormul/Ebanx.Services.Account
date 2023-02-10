@@ -40,7 +40,8 @@ public class CreateTransferCommandHandlerTests
         _mediatorMock
             .SetupSequence(m => m.Send(It.IsAny<GetAccountQuery>(), default))
             .ReturnsAsync(originAccountResult)
-            .ReturnsAsync(destinationAccountResult);;
+            .ReturnsAsync(destinationAccountResult);
+        ;
 
         //Act
         await _handler.Handle(new CreateTransferCommand("1234", "4321", 100), default);
