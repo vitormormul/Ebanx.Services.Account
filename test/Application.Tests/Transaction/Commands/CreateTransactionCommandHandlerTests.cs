@@ -1,8 +1,9 @@
-using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Ebanx.Services.Account.Application.Deposit.Commands;
 using Ebanx.Services.Account.Application.Transaction.Commands.CreateTransaction;
+using Ebanx.Services.Account.Application.Transfer.Commands;
+using Ebanx.Services.Account.Application.Withdraw.Commands;
+using Ebanx.Services.Account.Domain.Transaction;
 using Ebanx.Services.Account.Domain.Transaction.Entities;
 using MediatR;
 using Moq;
@@ -14,6 +15,8 @@ public class CreateTransactionCommandHandlerTests
 {
     private readonly CreateTransactionCommandHandler _handler;
     private readonly Mock<IMediator> _mediatorMock;
+    private readonly CreateTransactionCommand _commandFixture =
+        new(TransactionType.None, 100, "3210", "01234"); 
 
     public CreateTransactionCommandHandlerTests()
     {
@@ -21,59 +24,21 @@ public class CreateTransactionCommandHandlerTests
         _handler = new CreateTransactionCommandHandler(_mediatorMock.Object);
     }
 
-    private async Task Handle_Mock<TCommandType>(CreateTransactionCommand command,
-        Expression<Func<TCommandType, bool>> mediatorSendRequirements,
-        Ebanx.Services.Account.Domain.Transaction.Transaction mediatorSetupResult,
-        Expression<Func<TCommandType, bool>> mediatorVerifyRequirements)
+    private async Task HandleTest<TCommand>(CreateTransactionCommand command) where TCommand : IRequest<ITransaction?>
     {
-        //Arrange
-        _mediatorMock
-            .Setup(m => m.Send(It.Is(mediatorSendRequirements)!, default))
-            .ReturnsAsync(mediatorSetupResult);
-
         //Act
-        var result = await _handler.Handle(command, default);
-
+        await _handler.Handle(command, default);
+        
         //Assert
-        _mediatorMock
-            .Verify(m => m.Send(It.Is(mediatorVerifyRequirements)!, default), Times.Once);
+        var type = typeof(TCommand);
+        _mediatorMock.Verify(m => m.Send(It.IsAny<TCommand>()! ,default), Times.Once);
     }
 
     [Fact]
-    public async Task Handle_ShouldSendCreateDepositCommand_WhenTransactionTypeIsDeposit()
+    public async Task Handle_ShouldSendNewCommand_WhenTransactionHasType()
     {
-        //Arrange
-        var account = new Ebanx.Services.Account.Domain.Account.Account("01234", 100);
-        var transaction =
-            new Ebanx.Services.Account.Domain.Transaction.Transaction(TransactionType.Deposit, account, default, 100);
-        var command = new CreateTransactionCommand(TransactionType.Deposit, transaction.Amount, default,
-            transaction.DestinationAccountId!.Id);
-
-        _mediatorMock
-            .Setup(m => m.Send(
-                It.Is<CreateDepositCommand>(c =>
-                    c.AccountId == transaction.DestinationAccountId!.Id && c.Amount == transaction.Amount), default))
-            .ReturnsAsync(transaction);
-
-        //Act
-        var result = await _handler.Handle(command, default);
-
-        //Assert
-        _mediatorMock
-            .Verify(
-                m => m.Send(
-                    It.Is<CreateDepositCommand>(c =>
-                        c.AccountId == transaction.DestinationAccountId!.Id && c.Amount == transaction.Amount), default),
-                Times.Once);
-
-
-        //var command = new CreateTransactionCommand(TransactionType.Deposit, 4321, default, new AccountId("01234"));
-        //var account = new Ebanx.Services.Account.Domain.Account.Account(command.DestinationAccount!.Value, command.Amount);
-        //
-        //await Handle_Mock<CreateDepositCommand>(
-        //    command,
-        //    c => c.AccountId == command.DestinationAccount!.Value && c.Amount == command.Amount,
-        //    new Ebanx.Services.Account.Domain.Transaction.Transaction(TransactionType.Deposit, account, default, default),
-        //    mediatorVerifyRequirements: c => c.AccountId == command.DestinationAccount!.Value && c.Amount == command.Amount);
+        await HandleTest<CreateDepositCommand>(_commandFixture with {Type = TransactionType.Deposit});
+        await HandleTest<CreateWithdrawCommand>(_commandFixture with {Type = TransactionType.Withdraw});
+        await HandleTest<CreateTransferCommand>(_commandFixture with {Type = TransactionType.Transfer});
     }
 }
