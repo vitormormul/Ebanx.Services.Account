@@ -10,20 +10,22 @@ namespace Application.Tests.Withdraw.Commands;
 
 public class CreateWithdrawCommandHandlerTests
 {
+    private readonly Ebanx.Services.Account.Domain.Account.Account _accountFixture = new("01234", 100);
+    private readonly CreateWithdrawCommand _commandFixture = new("01234", 100);
+    private readonly CreateWithdrawCommandHandler _handler;
     private readonly Mock<IMediator> _mediatorMock;
     private readonly Mock<IAccountWriter> _writerMock;
-    private readonly CreateWithdrawCommandHandler _handler;
-    private readonly CreateWithdrawCommand _commandFixture = new("01234", 100);
-    private readonly Ebanx.Services.Account.Domain.Account.Account _accountFixture = new("01234", 100);
 
     public CreateWithdrawCommandHandlerTests()
     {
-        _mediatorMock = new Mock<IMediator>() ;
+        _mediatorMock = new Mock<IMediator>();
         _writerMock = new Mock<IAccountWriter>();
         _handler = new CreateWithdrawCommandHandler(_mediatorMock.Object, _writerMock.Object);
     }
 
-    private void MediatorSetup(CreateWithdrawCommand command, Ebanx.Services.Account.Domain.Account.Account? getAccountResult, Ebanx.Services.Account.Domain.Account.Account? creteAccountResult)
+    private void MediatorSetup(CreateWithdrawCommand command,
+        Ebanx.Services.Account.Domain.Account.Account? getAccountResult,
+        Ebanx.Services.Account.Domain.Account.Account? creteAccountResult)
     {
         _mediatorMock
             .Setup(m => m.Send(It.Is<GetAccountQuery>(q => q.Id == command.AccountId), default))
@@ -36,7 +38,8 @@ public class CreateWithdrawCommandHandlerTests
             .Verify(m => m.Send(It.Is<GetAccountQuery>(q => q.Id == command.AccountId), default), getAccountTimes);
     }
 
-    private void WriterSetup(CreateWithdrawCommand request, Ebanx.Services.Account.Domain.Account.Account getAccountResult)
+    private void WriterSetup(CreateWithdrawCommand request,
+        Ebanx.Services.Account.Domain.Account.Account getAccountResult)
     {
         _writerMock
             .Setup(w => w.CreateWithdrawAsync(It.Is<Ebanx.Services.Account.Domain.Account.Account>(x =>
@@ -51,7 +54,9 @@ public class CreateWithdrawCommandHandlerTests
     private void WriterVerify(Times createWithdrawTimes)
     {
         _writerMock
-            .Verify(w => w.CreateWithdrawAsync(It.IsAny<Ebanx.Services.Account.Domain.Account.Account>(), It.IsAny<int>()), createWithdrawTimes);
+            .Verify(
+                w => w.CreateWithdrawAsync(It.IsAny<Ebanx.Services.Account.Domain.Account.Account>(), It.IsAny<int>()),
+                createWithdrawTimes);
     }
 
     [Fact]
@@ -59,10 +64,10 @@ public class CreateWithdrawCommandHandlerTests
     {
         //Arrange
         MediatorSetup(_commandFixture, default, _accountFixture);
-        
+
         //Act
         var result = await _handler.Handle(_commandFixture, default);
-        
+
         //Assert
         MediatorVerify(_commandFixture, Times.Once());
         WriterVerify(Times.Never());
@@ -73,10 +78,10 @@ public class CreateWithdrawCommandHandlerTests
     {
         //Arrange
         MediatorSetup(_commandFixture, _accountFixture, default);
-        
+
         //Act
         var result = await _handler.Handle(_commandFixture, default);
-        
+
         //Assert
         MediatorVerify(_commandFixture, Times.Once());
         WriterVerify(Times.Once());

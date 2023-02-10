@@ -11,20 +11,22 @@ namespace Application.Tests.Deposit.Commands;
 
 public class CreateDepositCommandHandlerTests
 {
+    private readonly Ebanx.Services.Account.Domain.Account.Account _accountFixture = new("01234", 100);
+    private readonly CreateDepositCommand _commandFixture = new("01234", 100);
+    private readonly CreateDepositCommandHandler _handler;
     private readonly Mock<IMediator> _mediatorMock;
     private readonly Mock<IAccountWriter> _writerMock;
-    private readonly CreateDepositCommandHandler _handler;
-    private readonly CreateDepositCommand _commandFixture = new("01234", 100);
-    private readonly Ebanx.Services.Account.Domain.Account.Account _accountFixture = new("01234", 100);
 
     public CreateDepositCommandHandlerTests()
     {
-        _mediatorMock = new Mock<IMediator>() ;
+        _mediatorMock = new Mock<IMediator>();
         _writerMock = new Mock<IAccountWriter>();
         _handler = new CreateDepositCommandHandler(_mediatorMock.Object, _writerMock.Object);
     }
 
-    private void MediatorSetup(CreateDepositCommand command, Ebanx.Services.Account.Domain.Account.Account? getAccountResult, Ebanx.Services.Account.Domain.Account.Account? creteAccountResult)
+    private void MediatorSetup(CreateDepositCommand command,
+        Ebanx.Services.Account.Domain.Account.Account? getAccountResult,
+        Ebanx.Services.Account.Domain.Account.Account? creteAccountResult)
     {
         _mediatorMock
             .Setup(m => m.Send(It.Is<GetAccountQuery>(q => q.Id == command.AccountId), default))
@@ -45,7 +47,8 @@ public class CreateDepositCommandHandlerTests
                 c.Id == command.AccountId && c.Balance == command.Amount), default), createAccountTimes);
     }
 
-    private void WriterSetup(CreateDepositCommand request, Ebanx.Services.Account.Domain.Account.Account getAccountResult)
+    private void WriterSetup(CreateDepositCommand request,
+        Ebanx.Services.Account.Domain.Account.Account getAccountResult)
     {
         _writerMock
             .Setup(w => w.CreateDepositAsync(It.Is<Ebanx.Services.Account.Domain.Account.Account>(x =>
@@ -60,7 +63,9 @@ public class CreateDepositCommandHandlerTests
     private void WriterVerify(Times createDepositTimes)
     {
         _writerMock
-            .Verify(w => w.CreateDepositAsync(It.IsAny<Ebanx.Services.Account.Domain.Account.Account>(), It.IsAny<int>()), createDepositTimes);
+            .Verify(
+                w => w.CreateDepositAsync(It.IsAny<Ebanx.Services.Account.Domain.Account.Account>(), It.IsAny<int>()),
+                createDepositTimes);
     }
 
     [Fact]
@@ -68,10 +73,10 @@ public class CreateDepositCommandHandlerTests
     {
         //Arrange
         MediatorSetup(_commandFixture, default, _accountFixture);
-        
+
         //Act
         var result = await _handler.Handle(_commandFixture, default);
-        
+
         //Assert
         MediatorVerify(_commandFixture, Times.Once(), Times.Once());
         WriterVerify(Times.Never());
@@ -82,10 +87,10 @@ public class CreateDepositCommandHandlerTests
     {
         //Arrange
         MediatorSetup(_commandFixture, _accountFixture, default);
-        
+
         //Act
         var result = await _handler.Handle(_commandFixture, default);
-        
+
         //Assert
         MediatorVerify(_commandFixture, Times.Once(), Times.Never());
         WriterVerify(Times.Once());

@@ -32,10 +32,10 @@ public class EventController : ControllerBase
     public async Task<ActionResult<ITransaction>> Event([FromBody] CreateTransactionRequest request)
     {
         var command = new CreateTransactionCommand(
-            Type: request.Type,
-            Amount: request.Amount,
-            OriginAccountId: request.OriginAccountId,
-            DestinationAccountId: request.DestinationAccountId);
+            request.Type,
+            request.Amount,
+            request.OriginAccountId,
+            request.DestinationAccountId);
 
         var result = await _mediator.Send(command);
 

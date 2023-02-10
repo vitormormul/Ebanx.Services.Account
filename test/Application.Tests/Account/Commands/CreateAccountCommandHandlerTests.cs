@@ -21,10 +21,10 @@ public class CreateAccountCommandHandlerTests
             .Setup(w => w.CreateAsync(It.Is<Ebanx.Services.Account.Domain.Account.Account>(
                 x => x.Id == request.Id && x.Balance == request.Balance)))
             .ReturnsAsync(account);
-        
+
         //Act
         var result = await handler.Handle(request, default);
-        
+
         //Assert
         Assert.Equal(account, result);
     }

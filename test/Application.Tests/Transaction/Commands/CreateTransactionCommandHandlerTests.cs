@@ -13,10 +13,11 @@ namespace Application.Tests.Transaction.Commands;
 
 public class CreateTransactionCommandHandlerTests
 {
+    private readonly CreateTransactionCommand _commandFixture =
+        new(TransactionType.None, 100, "3210", "01234");
+
     private readonly CreateTransactionCommandHandler _handler;
     private readonly Mock<IMediator> _mediatorMock;
-    private readonly CreateTransactionCommand _commandFixture =
-        new(TransactionType.None, 100, "3210", "01234"); 
 
     public CreateTransactionCommandHandlerTests()
     {
@@ -28,18 +29,20 @@ public class CreateTransactionCommandHandlerTests
     {
         //Act
         await _handler.Handle(command, default);
-        
+
         //Assert
         var type = typeof(TCommand);
-        _mediatorMock.Verify(m => m.Send(It.IsAny<TCommand>()! ,default), Times.Once);
+        _mediatorMock.Verify(m => m.Send(It.IsAny<TCommand>()!, default), Times.Once);
     }
 
     [Fact]
     public async Task Handle_ShouldSendNewCommand_WhenTransactionHasType()
     {
-        var testDepositTask = HandleTest<CreateDepositCommand>(_commandFixture with {Type = TransactionType.Deposit});
-        var testWithdrawTask = HandleTest<CreateWithdrawCommand>(_commandFixture with {Type = TransactionType.Withdraw});
-        var testTransferTask = HandleTest<CreateTransferCommand>(_commandFixture with {Type = TransactionType.Transfer});
+        var testDepositTask = HandleTest<CreateDepositCommand>(_commandFixture with { Type = TransactionType.Deposit });
+        var testWithdrawTask =
+            HandleTest<CreateWithdrawCommand>(_commandFixture with { Type = TransactionType.Withdraw });
+        var testTransferTask =
+            HandleTest<CreateTransferCommand>(_commandFixture with { Type = TransactionType.Transfer });
 
         await Task.WhenAll(testDepositTask, testWithdrawTask, testTransferTask);
     }

@@ -22,7 +22,8 @@ public class EventControllerTests
         _eventController = new EventController(_mediatorMock.Object);
     }
 
-    private async Task EventTest(ITransaction? mediatorSetupResult, (Type StatusCode, object Body) controllerExpectedResponse)
+    private async Task EventTest(ITransaction? mediatorSetupResult,
+        (Type StatusCode, object Body) controllerExpectedResponse)
     {
         //Arrange
         _mediatorMock
@@ -42,7 +43,8 @@ public class EventControllerTests
     [Fact]
     public async Task Event_ShouldReturnOk_WhenTransactionIsPossible()
     {
-        (Type StatusCode, ITransaction Body) controllerExpectedResponse = (typeof(CreatedResult),  new Mock<ITransaction>().Object);
+        (Type StatusCode, ITransaction Body) controllerExpectedResponse =
+            (typeof(CreatedResult), new Mock<ITransaction>().Object);
         await EventTest(controllerExpectedResponse.Body, controllerExpectedResponse);
     }
 

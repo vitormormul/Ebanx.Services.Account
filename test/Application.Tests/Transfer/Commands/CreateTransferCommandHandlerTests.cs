@@ -10,16 +10,10 @@ namespace Application.Tests.Transfer.Commands;
 
 public class CreateTransferCommandHandlerTests
 {
-    private readonly Mock<IMediator> _mediatorMock;
-    
     private readonly Mock<IAccountWriter> _accountWriter;
-    
+
     private readonly CreateTransferCommandHandler _handler;
-
-    private Ebanx.Services.Account.Domain.Account.Account AccountFixture => new("1234", 100);
-
-    private Ebanx.Services.Account.Domain.Transaction.Transfer TransferFixture =>
-        new(AccountFixture, AccountFixture);
+    private readonly Mock<IMediator> _mediatorMock;
 
     public CreateTransferCommandHandlerTests()
     {
@@ -30,27 +24,33 @@ public class CreateTransferCommandHandlerTests
                 It.IsAny<Ebanx.Services.Account.Domain.Account.Account>(),
                 It.IsAny<Ebanx.Services.Account.Domain.Account.Account>(), default))
             .ReturnsAsync(TransferFixture);
-        
+
         _handler = new CreateTransferCommandHandler(_mediatorMock.Object, _accountWriter.Object);
     }
 
-    private async Task HandleTest(Ebanx.Services.Account.Domain.Account.Account? mediatorCommandResult, Times writerTimes)
+    private Ebanx.Services.Account.Domain.Account.Account AccountFixture => new("1234", 100);
+
+    private Ebanx.Services.Account.Domain.Transaction.Transfer TransferFixture =>
+        new(AccountFixture, AccountFixture);
+
+    private async Task HandleTest(Ebanx.Services.Account.Domain.Account.Account? mediatorCommandResult,
+        Times writerTimes)
     {
         //Arrange
         _mediatorMock
             .Setup(m => m.Send(It.IsAny<GetAccountQuery>(), default))
             .ReturnsAsync(mediatorCommandResult);
-        
+
         //Act
         await _handler.Handle(new CreateTransferCommand("1234", "4321", 100), default);
-        
+
         //Assert
         _mediatorMock
             .Verify(m => m.Send(It.IsAny<GetAccountQuery>(), default), Times.Exactly(2));
         _accountWriter
             .Verify(w => w.CreateTransferAsync(
                 It.IsAny<Ebanx.Services.Account.Domain.Account.Account>(),
-                It.IsAny<Ebanx.Services.Account.Domain.Account.Account>(), 
+                It.IsAny<Ebanx.Services.Account.Domain.Account.Account>(),
                 It.IsAny<int>()), writerTimes);
     }
 

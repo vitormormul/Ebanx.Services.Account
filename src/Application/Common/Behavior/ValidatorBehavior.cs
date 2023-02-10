@@ -13,16 +13,14 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
         _validator = validator;
     }
 
-    public async Task<TResponse?> Handle(TRequest request, RequestHandlerDelegate<TResponse?> next, CancellationToken cancellationToken)
+    public async Task<TResponse?> Handle(TRequest request, RequestHandlerDelegate<TResponse?> next,
+        CancellationToken cancellationToken)
     {
         if (_validator == default) return await next();
 
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);
 
-        if (validationResult.IsValid)
-        {
-            return await next();
-        }
+        if (validationResult.IsValid) return await next();
 
         return default;
     }

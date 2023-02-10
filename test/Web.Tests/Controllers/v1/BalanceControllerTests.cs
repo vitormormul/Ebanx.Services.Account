@@ -12,9 +12,9 @@ namespace Web.Tests.Controllers.v1;
 
 public class BalanceControllerTests
 {
+    private readonly Account _accountFixture = new("0123", 100);
     private readonly BalanceController _balanceController;
     private readonly Mock<IMediator> _mediatorMock;
-    private readonly Account _accountFixture = new Account("0123", 100);
 
     public BalanceControllerTests()
     {
@@ -22,7 +22,8 @@ public class BalanceControllerTests
         _balanceController = new BalanceController(_mediatorMock.Object);
     }
 
-    private async Task BalanceTest(string accountId, Account? mediatorSetupResult, (Type StatusCode, int Body) controllerExpectedResponse)
+    private async Task BalanceTest(string accountId, Account? mediatorSetupResult,
+        (Type StatusCode, int Body) controllerExpectedResponse)
     {
         //Arrange
         _mediatorMock
@@ -50,6 +51,6 @@ public class BalanceControllerTests
     public async Task GetBalance_ShouldReturnNotFound_WhenAccountDoesNotExist()
     {
         var controllerExpectedResponse = (typeof(NotFoundObjectResult), 0);
-        await BalanceTest(_accountFixture.Id,  default, controllerExpectedResponse);
+        await BalanceTest(_accountFixture.Id, default, controllerExpectedResponse);
     }
 }

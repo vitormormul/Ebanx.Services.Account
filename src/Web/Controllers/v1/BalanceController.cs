@@ -25,8 +25,8 @@ public class BalanceController : ControllerBase
     /// <returns>Returns current account balance if account exists.</returns>
     /// <param name="account_id">Account id to get balance from.</param>
     [HttpGet]
-    [ProducesResponseType(typeof(int) ,(int)HttpStatusCode.OK)]
-    [ProducesResponseType(typeof(int) ,(int)HttpStatusCode.NotFound)]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.NotFound)]
     public async Task<ActionResult<int>> Balance([FromQuery] string account_id)
     {
         var account = await _mediator.Send(new GetAccountQuery(account_id));

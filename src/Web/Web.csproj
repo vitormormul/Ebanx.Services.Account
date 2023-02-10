@@ -10,17 +10,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+        <ProjectReference Include="..\Infrastructure\Infrastructure.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Content Remove="appsettings.json" />
-        <Content Remove="appsettings.Development.json" />
-        <Content Remove="Properties/launchSettings.json" />
+        <Content Remove="appsettings.json"/>
+        <Content Remove="appsettings.Development.json"/>
+        <Content Remove="Properties/launchSettings.json"/>
     </ItemGroup>
 
 </Project>

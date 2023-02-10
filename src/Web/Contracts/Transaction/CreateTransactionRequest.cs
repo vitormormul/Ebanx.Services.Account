@@ -8,9 +8,9 @@ public record CreateTransactionRequest
 {
     [JsonPropertyName("amount")] public int Amount { get; set; }
 
-    [JsonPropertyName("destination")] public string DestinationAccountId { get; set; } = String.Empty;
+    [JsonPropertyName("destination")] public string DestinationAccountId { get; set; } = string.Empty;
 
-    [JsonPropertyName("origin")] public string OriginAccountId { get; set; } = String.Empty;
+    [JsonPropertyName("origin")] public string OriginAccountId { get; set; } = string.Empty;
 
     [JsonPropertyName("type")] public TransactionType Type { get; set; }
 }

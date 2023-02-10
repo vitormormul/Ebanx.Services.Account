@@ -14,10 +14,10 @@ public class ResetDataCommandHandlerTests
         //Arrange
         var writerMock = new Mock<IAccountWriter>();
         var handler = new ResetDataCommandHandler(writerMock.Object);
-        
+
         //Act
         await handler.Handle(new ResetDataCommand(), default);
-        
+
         //Assert
         writerMock.Verify(w => w.ClearTable(), Times.Once);
     }

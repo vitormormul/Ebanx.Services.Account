@@ -20,10 +20,10 @@ public class GetAccountQueryHandlerTests
         accountReader
             .Setup(w => w.GetAsync(It.Is<string>(x => x == account.Id)))
             .ReturnsAsync(account);
-        
+
         //Act
         var result = await handler.Handle(request, default);
-        
+
         //Assert
         Assert.Equal(account, result);
     }

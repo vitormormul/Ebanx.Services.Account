@@ -32,7 +32,6 @@ public static class DependencyInjection
             var xmlPath = Path.Combine(AppContext.BaseDirectory,
                 $"{Assembly.GetExecutingAssembly().GetName().Name}.xml");
             opt.IncludeXmlComments(xmlPath, true);
-            
         });
         serviceCollection.AddRouting(opt => opt.LowercaseUrls = true);
 
