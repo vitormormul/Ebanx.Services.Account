@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text.Json.Serialization;
 using Ebanx.Services.Account.Application.Account.Commands.CreateAccount;
 using Ebanx.Services.Account.Application.Common.Behavior;
@@ -26,7 +27,13 @@ public static class DependencyInjection
                 opts.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
             });
         serviceCollection.AddEndpointsApiExplorer();
-        serviceCollection.AddSwaggerGen();
+        serviceCollection.AddSwaggerGen(opt =>
+        {
+            var xmlPath = Path.Combine(AppContext.BaseDirectory,
+                $"{Assembly.GetExecutingAssembly().GetName().Name}.xml");
+            opt.IncludeXmlComments(xmlPath, true);
+            
+        });
         serviceCollection.AddRouting(opt => opt.LowercaseUrls = true);
 
         #endregion

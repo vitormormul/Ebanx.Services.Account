@@ -25,9 +25,10 @@ public class EventController : ControllerBase
     ///     Create transactions.
     /// </summary>
     /// <returns>Returns transaction which can be either a deposit, a withdraw or transfer between accounts.</returns>
+    /// <param name="request">Transaction to be executed. Types are Deposit (1), Withdraw (2) and Transfer (3).</param>
     [HttpPost]
-    [ProducesResponseType((int)HttpStatusCode.Created)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType(typeof(ITransaction), (int)HttpStatusCode.Created)]
+    [ProducesResponseType(typeof(int), (int)HttpStatusCode.NotFound)]
     public async Task<ActionResult<ITransaction>> Event([FromBody] CreateTransactionRequest request)
     {
         var command = new CreateTransactionCommand(
