@@ -23,10 +23,11 @@ public class ResetControllerTests
     private async Task PostReset_ShouldReturnOk_WhenMediatorDoesNotThrowError()
     {
         //Act
-        var result = await _resetController.Reset();
+        var result = (await _resetController.Reset()).Result as ObjectResult;
 
         //Assert
-        Assert.IsType<OkResult>(result);
+        Assert.IsType<OkObjectResult>(result);
+        Assert.Equal("OK", result!.Value);
         _mediatorMock
             .Verify(m => m.Send(It.IsAny<ResetDataCommand>(), default), Times.Once);
     }

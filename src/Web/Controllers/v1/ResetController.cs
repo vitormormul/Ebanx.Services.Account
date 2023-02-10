@@ -23,10 +23,10 @@ public class ResetController : ControllerBase
     ///     Reset state before starting tests.
     /// </summary>
     [HttpPost]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Reset()
+    [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+    public async Task<ActionResult<string>> Reset()
     {
         await _mediator.Send(new ResetDataCommand());
-        return Ok();
+        return Ok("OK");
     }
 }
