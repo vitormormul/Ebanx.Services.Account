@@ -9,7 +9,7 @@ namespace Ebanx.Services.Account.Web.Controllers.v1;
 
 [ApiController]
 [Route("[controller]")]
-[Produces("application/json")]
+[Produces("text/plain")]
 public class ResetController : ControllerBase
 {
     private readonly IMediator _mediator;
